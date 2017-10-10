@@ -9,23 +9,39 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author aavhimovich
- */
-public class Connect 
+public final class Connect
 {
-    static String s1 = "jdbc:ucanaccess://";
-    static String s4 = "D:/Database2.mdb";
-    static Connection connection;
 
-    public static void connectToDB() {
-        //database connection
-        try {
-            connection = DriverManager.getConnection(s1 + s4);
-        } catch (SQLException e) {
+    String driver = "jdbc:ucanaccess://";
+    Connection connection;
+    private static volatile Connect instance = null;
+
+    // private constructor
+    private Connect()
+    {
+    }
+
+    public Connect(String databasePath)
+    {
+        try
+        {
+            connection = DriverManager.getConnection(driver + databasePath);
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
         }
-        //end of database connection
+    }
+
+    public static Connect getInstance()
+    {
+        if (instance == null)
+        {
+            synchronized (Connect.class)
+            {
+                instance = new Connect();
+            }
+        }
+        return instance;
     }
 }
