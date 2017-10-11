@@ -12,8 +12,7 @@ import java.sql.SQLException;
 public final class Connect
 {
 
-    String driver = "jdbc:ucanaccess://";
-    Connection connection;
+
     private static volatile Connect instance = null;
 
     // private constructor
@@ -23,14 +22,7 @@ public final class Connect
 
     public Connect(String databasePath)
     {
-        try
-        {
-            connection = DriverManager.getConnection(driver + databasePath);
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+
     }
 
     public static Connect getInstance()
